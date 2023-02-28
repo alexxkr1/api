@@ -1,0 +1,162 @@
+openapi: 3.0.0
+info:
+  title: My API
+  version: 1.0.0
+  description: A sample API
+
+paths:
+  /organization:
+    post:
+      summary: Create an organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the organization
+                description:
+                  type: string
+                  description: A description of the organization
+              required:
+                - name
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          description: Bad request
+
+  /event:
+    post:
+      summary: Create an event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the event
+                description:
+                  type: string
+                  description: A description of the event
+                date:
+                  type: string
+                  format: date-time
+                  description: The date of the event
+              required:
+                - name
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Bad request
+
+    get:
+      summary: Get all events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+    put:
+      summary: Update an event
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the event to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the event
+                description:
+                  type: string
+                  description: A description of the event
+                date:
+                  type: string
+                  format: date-time
+                  description: The date of the event
+              required:
+                - id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Bad request
+        '404':
+          description: Event not found
+
+    delete:
+      summary: Delete an event
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the event to delete
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: A message indicating that the event was deleted
+        '404':
+          description: Event not found
+
+components:
+  schemas:
+    Organization:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the organization
+        description:
+          type: string
+          description: A description of the organization
+
+    Event:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the event
+        description:
+         
